@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+</head>
+
+<body>
+  <input id="enviarmensagem" type="text" placeholder="Enviar mensagem a todos os clientes conectados">
+  <button onclick="enviarMensagem()">Enviar</button>
+  <script>
+
+    var exampleSocket = new WebSocket("ws://localhost:8080");
+    console.log(exampleSocket)
+
+    exampleSocket.onmessage = function (event) {
+      createElement(event.data)
+      console.log(event.data);
+    }
+    function enviarMensagem() {
+      const inputMessage = document.querySelector("#enviarmensagem")
+      exampleSocket.send(inputMessage.value);
+
+      createElement(inputMessage.value)
+      inputMessage.value = ""
+    }
+    function createElement(element) {
+      var elemento_pai = document.body;
+      var paragrafo = document.createElement('p');
+      paragrafo.innerText = element
+      elemento_pai.appendChild(paragrafo);
+
+      //       const paragrafo = document.createElement("p");
+
+      // paragrafo.appendChild(event.data);
+      // const body = document.body;
+      // body.innerHTML += paragrafo.innerHTML;
+    }
+  </script>
+</body>
+
+</html>
